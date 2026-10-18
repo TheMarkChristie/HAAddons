@@ -20,12 +20,16 @@ a thin wrapper around the published image; nothing is built or changed here.
 
 The first sign-in claims this Shortlist instance: do it from the home network.
 
-## Dry run first
+## Before the first run
 
-`SHORTLIST_DRY_RUN` is `"1"` in this add-on's `config.yaml` to begin with, so every run (the wizard's first run
-included) logs what it would write to Plex and writes nothing. Read Runs > How we picked. When the picks look right,
-the add-on repository publishes the same add-on with dry run off as its next version: **Check for updates** on the
-add-on page and Update. (Or, in Shortlist itself, start a run from the Runs page once the switch is off.)
+Runs write to Plex: your rows become collections in your libraries, and every other account's sharing settings get a
+label rule so they never see them. Both are undone by Shortlist's own **Settings > System > Danger zone > Uninstall**.
+In the wizard, tick only yourself on the Users step, keep the AI provider at None, and let the first run go. Read
+**Runs > How we picked** afterwards; every row has an editor for its size, libraries, cadence and weights (the cast
+weight lives under the row's picks settings).
+
+A forced dry run (`SHORTLIST_DRY_RUN=1`) is an environment value, and an add-on built from a published image cannot
+offer it as a toggle without a second add-on, so it is off here. Shortlist's API accepts a dry run per request.
 
 ## Updating Shortlist
 
@@ -47,6 +51,6 @@ When it moves, the add-on page shows Update. Back up `/addon_configs/<id>_shortl
 | --- | --- | --- |
 | `TZ` | `Europe/Oslo` | Schedules in local time |
 | `PUID` / `PGID` | `0` | The add-on's config folder is root-owned |
-| `SHORTLIST_DRY_RUN` | `"1"` until the first real run | Safety |
+| `SHORTLIST_DRY_RUN` | `"0"` | Runs are live; see "Before the first run" |
 | `PORT` | image default `5959` | |
 | `SHORTLIST_CONFIG` | image default `/config` | |

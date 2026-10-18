@@ -28,7 +28,8 @@ environment:
   # the add-on's folder belongs to root; run Shortlist as root inside its container so it can write there
   PUID: "0"
   PGID: "0"
-  # First install: every run only logs what it would change. Set to "0" (or remove) after reading a dry run, then Rebuild.
-  SHORTLIST_DRY_RUN: "1"
+  # Runs write to Plex. Shortlist's API and Runs page can do a dry run on demand; a forced dry run would need this
+  # value set to "1", and an image-based add-on cannot ship two versions of that, so it is off here.
+  SHORTLIST_DRY_RUN: "0"
 options: {}
 schema: {}
