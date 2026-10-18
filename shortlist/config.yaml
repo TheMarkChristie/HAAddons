@@ -25,9 +25,10 @@ map:
   - addon_config:rw
 environment:
   TZ: Europe/Oslo
-  # the add-on's folder belongs to root; run Shortlist as root inside its container so it can write there
-  PUID: "0"
-  PGID: "0"
+  # Shortlist runs as the image's own unprivileged user (PUID/PGID default 1000): its entrypoint starts as root, chowns
+  # /config (the add-on's root-owned folder) to that user and drops to it with gosu, so nothing here needs root.
+  # Nothing proxies port 5959, so forwarded client addresses are not trusted (the image trusts any by default).
+  FORWARDED_ALLOW_IPS: "127.0.0.1"
   # Runs write to Plex. Shortlist's API and Runs page can do a dry run on demand; a forced dry run would need this
   # value set to "1", and an image-based add-on cannot ship two versions of that, so it is off here.
   SHORTLIST_DRY_RUN: "0"

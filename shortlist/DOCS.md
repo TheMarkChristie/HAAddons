@@ -35,6 +35,9 @@ offer it as a toggle without a second add-on, so it is off here. Shortlist's API
 
 The repository's `version:` follows Shortlist's tags on ghcr.io/stevezau/shortlist (`1.12.1`, `1.12.0`, ...).
 When it moves, the add-on page shows Update. Back up `/addon_configs/<id>_shortlist` first; the releases say so.
+The Supervisor applies a change to this add-on's settings only with a new version, so the switch from root to the
+unprivileged user (18 Oct 2026) reaches a running add-on with the next Shortlist version; on that first start the
+entrypoint hands the existing files to the new user.
 
 ## Where things are
 
@@ -50,7 +53,8 @@ When it moves, the add-on page shows Update. Back up `/addon_configs/<id>_shortl
 | Variable | Value here | Why |
 | --- | --- | --- |
 | `TZ` | `Europe/Oslo` | Schedules in local time |
-| `PUID` / `PGID` | `0` | The add-on's config folder is root-owned |
+| `PUID` / `PGID` | image default `1000` | Shortlist runs as an unprivileged user; its entrypoint makes the root-owned config folder its own on start |
+| `FORWARDED_ALLOW_IPS` | `127.0.0.1` | Nothing proxies port 5959, so a client cannot claim another address |
 | `SHORTLIST_DRY_RUN` | `"0"` | Runs are live; see "Before the first run" |
 | `PORT` | image default `5959` | |
 | `SHORTLIST_CONFIG` | image default `/config` | |
